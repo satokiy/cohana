@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title>ご注文</title>
+<style>
+header{
+  margin-bottom: 80px;
+  margin-top: 0px;
+  text-align: center;
+}
+.check_image{
+  height: 300px;
+}
+
+img{
+box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.8);
+border-radius: 10px;
+
+max-width: 100%;
+max-height: 100%;
+}
+</style>
+</head>
+
+<body>
+  <header>
+    <div class="step1-header bg-danger text-white py-2 my-3 mx-auto">
+      注文内容の確認
+    </div>
+  </header>
+    <%# 一時ディレクトリの場所にある画像を表示 %>
+<div class="container">
+<section>
+
+<div class="check_image">
+  <div style = "border-bottom:solid 2px black; font-weight:bold;">ご利用写真</div>
+  <%= image_tag(session[:image]) %>
+</div>
+</section>
+<section class="mt-5">
+<table class="table table-bordered text-center" style="background-color:white">
+  <tbody>
+    <tr>
+      <td>お名前（姓）</td>
+      <td><%= session[:name1] %></td>
+    </tr>
+    <tr>
+      <td>お名前（名）</td>
+      <td><%= session[:name2] %></td>
+    </tr>
+    <tr>
+      <td>電話番号</td>
+      <td>
+              <%= session[:tel1] %> -
+              <%= session[:tel2] %> -
+              <%= session[:tel3] %></td>
+    </tr>
+    <tr>
+      <td>メールアドレス</td>
+      <td><%= session[:email] %></td>
+    </tr>
+    <tr>
+      <td>お届け先</td>
+      <td>〒<%= session[:zipcode] %>｜<%= session[:pref] %><%= session[:addr1] %><%= session[:addr2] %></td>
+    </tr>
+    <tr>
+      <td>お届け日</td>
+      <td><%= session[:delivery_date] %></td>
+    </tr>
+    <tr>
+      <td>お支払い方法</td>
+      <td><%= session[:pay_type] %></td>
+    </tr>
+    <tr>
+      <td>お支払い額</td>
+      <td>11800円（消費税・送料込）</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+<p style = "border-bottom:solid 2px black; font-weight:bold;">利用規約への同意をお願いいたします</p>
+<section class ="terms_of_service w-100" style="height:100px;">
+<iframe width="80%" height="200px" style="background-color:white"
+ srcdoc="
+ <h4>＜利用規約＞</h4>
+<ul><li>body要素とその外側の要素は省略可能</li>
+<li>a要素でリンクを貼るとエラーになるようです</li>
+<li>要素にstyleなどの属性を使ってもエラーに</li></ul>" allowfullscreen>
+</iframe>
+
+</section>
+
+<%= form_tag("/order/complete") do %>
+
+<input type="hidden" value="<%= session[:name1] %>">
+<input type="hidden" value="<%= session[:name2] %>">
+<input type="hidden" value="<%= session[:tel1] %>">
+<input type="hidden" value="<%= session[:tel2] %>">
+<input type="hidden" value="<%= session[:tel3] %>">
+<input type="hidden" value="<%= session[:image] %>">
+<input type="hidden" value="<%= session[:email] %>">
+<input type="hidden" value="<%= session[:zipcode] %>">
+<input type="hidden" value="<%= session[:addr1] %>">
+<input type="hidden" value="<%= session[:addr2] %>">
+<input type="hidden" value="<%= session[:pref] %>">
+<input type="hidden" value="<%= session[:delivery_date] %>">
+<input type="hidden" value="<%= session[:pay_type] %>">
+
+
+
+<div class="py-4 text-center">
+<input type="checkbox" id="demo" autocomplete="off">
+<label for="demo">利用規約に同意します</label>
+</div>
+<ul>
+  <li>
+<button id ="link3"type="button" class="btn btn-danger">注文を確定する</button></li>
+<li>
+<div class="return">
+<%=link_to("戻る","/order/new",class:"btn btn-danger btn-md")%>
+</div></li>
+</ul>
+
+
+<script>
+var l3 = document.getElementById('link3');
+document.getElementById('demo').addEventListener('click',function(){
+if (this.checked) {
+l3.innerHTML = '<button type="submit" class="btn btn-danger" >注文を確定する</button>';
+} else {
+l3.innerHTML = '注文を確定する';
+}
+},false);
+</script>
+<% end %>
+
+
+
+</div>
+</body>
+
+</html>

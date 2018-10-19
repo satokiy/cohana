@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+
+<head>
+<title>CoHana|ご注文＿写真の撮影</title>
+<style>
+header{
+  margin-bottom: 80px;
+  margin-top: 0px;
+  text-align: center;
+}
+.preview-message{
+  background: white;
+  border: solid 3px red;
+  border-radius: 10px;
+  text-align:center;
+  margin-left:20%;
+  margin-right: 20%;
+  margin-top: 140px;
+  margin-bottom: 140px;
+}
+img{
+  box-shadow: 0px 0px 20px -5px rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 700px;
+  max-height: 100%;
+}
+</style>
+</head>
+<body>
+  <header>
+    <div class="step1-header bg-danger text-white py-2 my-3 mx-auto">
+      カメラで写真を撮影
+    </div>
+  </header>
+<div class="container">
+  <div class="preview" >
+    <div class="preview-message">ここに画像が表示されます</div>
+    <img scr=""　style="z-index:10;">
+  </div>
+<div class="upload">
+<%= form_tag("/order/upload2", multipart: true ,method: :post) do %>
+  <!--<%= form_for(@order, :url => {:controller => :order, :action => :upload2}, multipart: true ,method: :post) do |f| %>
+-->
+  <ul style="padding-left:0; float:left;">
+    <li>
+      <input type="file" name="image" accept="image/*" capture ="environment" class="uploadfile" id="uploadfile" style="display:none;">
+      <button type="button" class="btn btn-danger btn-lg" id="coverbutton"onclick="$('input[id=uploadfile]').click();">カメラを起動</button>
+    </li>
+    <li>
+      <button type="submit" class="btn btn-danger btn-lg">注文に進む</button>
+    </li>
+  </ul>
+  <% end %>
+
+
+<% end %>
+</div>
+</div>
+<!-- 画像選択ボタンをましにするためのonclick用JSコード -->
+<script>
+  $('input[id=uploadfile]').change(function() {
+    $('#coverbutton').val($(this).val());
+  });
+</script>
+  <script>
+  $(function(){
+  //画像ファイルプレビュー表示のイベント追加 fileを選択時に発火するイベントを登録
+  $('form').on('change', 'input[type="file"]', function(e) {
+    var file = e.target.files[0],
+        reader = new FileReader(),
+        $preview = $(".preview");
+        t = this;
+
+    // 画像ファイル以外の場合は何もしない
+    if(file.type.indexOf("image") < 0){
+      return false;
+    }
+
+    // ファイル読み込みが完了した際のイベント登録
+    reader.onload = (function(file) {
+      return function(e) {
+        //既存のプレビューを削除
+        $preview.empty();
+        // .prevewの領域の中にロードした画像を表示するimageタグを追加
+        $preview.append($('<img>').attr({
+                  src: e.target.result,
+                  width: "80%",
+                  class: "preview",
+                  title: file.name
+              }));
+      };
+    })(file);
+
+    reader.readAsDataURL(file);
+  });
+  });
+  </script>
+
+
+
+
+</body>
+</html>

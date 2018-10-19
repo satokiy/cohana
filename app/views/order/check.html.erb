@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+
+<head>
+<title>CoHana|ご注文＿写真の撮影</title>
+</head>
+<body>
+<p>
+  写真はこちらでよろしいですか？
+</p>
+<%=form_tag("/order/next", multipart: true ) do %>
+<%# 一時ディレクトリの場所にある画像を表示 %>
+<%= image_tag(@order.image_name.url) %>
+
+<%# キャッシュ名(一時ディレクトリの名前)をhiddenで渡す %>
+<%= hidden_field_tag :"cache[image_name]", @order.image_name.cache_name %>
+
+
+<button type="submit" class:"btn-folder">注文に進む</button>
+<% end %>
+
+<br>
+<%= link_to("選び直す","/order/picture" ,class:"btn-folder")%>
+</body>
+</html>
