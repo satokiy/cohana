@@ -43,21 +43,19 @@ img{
   </div>
 <div class="upload">
 <%= form_tag("/order/upload2", multipart: true ,method: :post) do %>
-  <!--<%= form_for(@order, :url => {:controller => :order, :action => :upload2}, multipart: true ,method: :post) do |f| %>
--->
+
   <ul style="padding-left:0; float:left;">
     <li>
-      <input type="file" name="image" accept="image/*" capture ="environment" class="uploadfile" id="uploadfile" style="display:none;">
+      <input type="file" name="image_name" accept="image/*" capture ="environment" class="uploadfile" id="uploadfile" style="display:none;">
       <button type="button" class="btn btn-danger btn-lg" id="coverbutton"onclick="$('input[id=uploadfile]').click();">カメラを起動</button>
     </li>
     <li>
       <button type="submit" class="btn btn-danger btn-lg">注文に進む</button>
     </li>
   </ul>
-  <% end %>
-
 
 <% end %>
+
 </div>
 </div>
 <!-- 画像選択ボタンをましにするためのonclick用JSコード -->
@@ -99,9 +97,6 @@ img{
   });
   });
   </script>
-
-
-
 
 </body>
 </html>

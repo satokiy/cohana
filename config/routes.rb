@@ -19,12 +19,12 @@ Rails.application.routes.draw do
   get "/order/confirm" => "order#confirm"
 
   post "/order/complete" => "order#complete"
-  
+
 
 get "/about" => "home#about"
 get "/company" => "home#company"
 
-
+post 'order/pay' => 'order#pay'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -30,7 +30,7 @@ max-height: 100%;
       注文内容の確認
     </div>
   </header>
-    <%# 一時ディレクトリの場所にある画像を表示 %>
+  <%# 一時ディレクトリの場所にある画像を表示 %>
 <div class="container">
 <section>
 
@@ -91,22 +91,22 @@ max-height: 100%;
 </iframe>
 
 </section>
+<!-- 注文内容をhidden_tagで送信 -->
+<%= form_tag("/order/complete",  multipart: true ) do %>
 
-<%= form_tag("/order/complete") do %>
-
-<input type="hidden" value="<%= session[:name1] %>">
-<input type="hidden" value="<%= session[:name2] %>">
-<input type="hidden" value="<%= session[:tel1] %>">
-<input type="hidden" value="<%= session[:tel2] %>">
-<input type="hidden" value="<%= session[:tel3] %>">
-<input type="hidden" value="<%= session[:image] %>">
-<input type="hidden" value="<%= session[:email] %>">
-<input type="hidden" value="<%= session[:zipcode] %>">
-<input type="hidden" value="<%= session[:addr1] %>">
-<input type="hidden" value="<%= session[:addr2] %>">
-<input type="hidden" value="<%= session[:pref] %>">
-<input type="hidden" value="<%= session[:delivery_date] %>">
-<input type="hidden" value="<%= session[:pay_type] %>">
+<input type="hidden" name="name1" value="<%= session[:name1] %>">
+<input type="hidden" name="name2" value="<%= session[:name2] %>">
+<input type="hidden" name="tel1" value="<%= session[:tel1] %>">
+<input type="hidden" name="tel2" value="<%= session[:tel2] %>">
+<input type="hidden" name="tel3" value="<%= session[:tel3] %>">
+<input type="hidden" name="image" value="<%= session[:image] %>">
+<input type="hidden" name="email" value="<%= session[:email] %>">
+<input type="hidden" name="zipcode" value="<%= session[:zipcode] %>">
+<input type="hidden" name="addr1" value="<%= session[:addr1] %>">
+<input type="hidden" name="addr2" value="<%= session[:addr2] %>">
+<input type="hidden" name="pref" value="<%= session[:pref] %>">
+<input type="hidden" name="delivery_date" value="<%= session[:delivery_date] %>">
+<input type="hidden" name="pay_type" value="<%= session[:pay_type] %>">
 
 
 
@@ -121,6 +121,7 @@ max-height: 100%;
 <div class="return">
 <%=link_to("戻る","/order/new",class:"btn btn-danger btn-md")%>
 </div></li>
+
 </ul>
 
 
@@ -135,7 +136,10 @@ l3.innerHTML = '注文を確定する';
 },false);
 </script>
 <% end %>
-
+<%= form_tag(:controller => :order, action: :pay, method: :post) do %>
+   <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key="pk_test_38e945b10367e2f041a6b4e3">
+   </script>
+   <% end %>
 
 
 </div>
