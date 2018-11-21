@@ -1,24 +1,20 @@
 class OrderController < ApplicationController
   def new
     @order = Order.new
-    @order.name1= session[:name1]
-    @order.name2= session[:name2]
-    @order.tel1=session[:tel1]
-    @order.tel2= session[:tel2]
-    @order.tel3= session[:tel3]
-    @order.email= session[:email]
-    @order.zipcode= session[:zipcode]
+    @order.name1= session[:name1],
+    @order.name2= session[:name2],
+    @order.tel1=session[:tel1],
+    @order.tel2= session[:tel2],
+    @order.tel3= session[:tel3],
+    @order.email= session[:email],
+    @order.zipcode= session[:zipcode],
     @order.pref= session[:pref]
-    @order.addr1= session[:addr1]
-    @order.addr2= session[:addr2]
-    @order.delivery_date= session[:delivery_date]
+    @order.addr1= session[:addr1],
+    @order.addr2= session[:addr2],
+    @order.delivery_date= session[:delivery_date],
     @order.pay_type= session[:pay_type]
     @order.image= session[:image]
-
-
   end
-
-
   def new2
   end
 
@@ -43,11 +39,11 @@ end
 # end
 
 def upload2
+@order = Order.new(image: params[:image])
 
-  @order = Order.new(image_name: params[:order][:image_name])
-#@order.image_name.urlにはアップロード画像の保存先のパスが入る
-  session[:image] = @order.image_name.url
-
+#session[:image] = @order.image.url
+session[:image] = @order.image.url
+# 一時的アップロード(@userインスタンスには一時ディレクトリのパスが入る)
 render :new
 #redirect_to("/order/new")
 end
@@ -87,20 +83,18 @@ def create
   session[:pay_type] = params[:pay_type]
 
 
-#   if @order.invalid?
-#     flash[:notice] = "必要項目を入力してください"
-#     render("order/new")
-#
-#   elsif
-#
+  if @order.invalid?
+    flash[:notice] = "必要項目を入力してください"
+    render("order/new")
+
+  elsif
+
     redirect_to("/order/confirm")
-#
-# end
 
 end
-
+end
 def confirm
-@order=Order.new(image_path: session[:image])
+@order=Order.new
 
 end
 
@@ -108,15 +102,21 @@ end
 def order
 end
 
-def pay
-  Payjp.api_key = 'sk_test_2bc851197c7bc9a05c0dff1d'
-  charge = Payjp::Charge.create(
-  :amount => 3500,
-  :card => params['payjp-token'],
-  :currency => 'jpy',
-)
-end
 def complete
+# @order=Order.new
+#   @order.name1= session[:name1]
+#   @order.name2= session[:name2]
+#   @order.tel1=session[:tel1]
+#   @order.tel2= session[:tel2]
+#   @order.tel3= session[:tel3]
+#   @order.email= session[:email]
+#   @order.zipcode= session[:zipcode]
+#   @order.pref= session[:pref]
+#   @order.addr1= session[:addr1]
+#   @order.addr2= session[:addr2]
+#   @order.delivery_date= session[:delivery_date]
+#   @order.pay_type= session[:pay_type]
+#   @order.image= session[:image]
 
   @order=Order.new(
     name1: session[:name1],
@@ -131,14 +131,11 @@ def complete
     addr2: session[:addr2],
     delivery_date: session[:delivery_date],
     pay_type: session[:pay_type],
+    image: session[:image]
   )
-  @order.image_path = session[:image]
-  #@order.image_nameではsessionの値を受け取れないので別のカラム（image_path）を用意してそこに保存
-  #image_nameカラムは現状carrierwaveを動かすための犠牲カラム
-if @order.save
 
-OrderMailer.send_mail(order).deliver_now
-#Rails ActionMailerによってメールを送るコード
+if @order.save
+  flash[:notice]="ご注文ありがとうございました"
 # if params[:back]
 #   render :new
 #elsif @order.save
@@ -154,10 +151,12 @@ session[:addr1] = nil
 session[:addr2] = nil
 session[:delivery_date] = nil
 session[:pay_type] = nil
-session[:image_path] = nil
+session[:image] = nil
 
-flash[:notice]="ご注文ありがとうございました"
 redirect_to("/")
+
+
+#else render :new
 end
 
 

@@ -1,3 +1,3 @@
 class Order < ActiveRecord::Base
-  mount_uploader :image_name, ImageUploader
+  mount_uploader :image, ImageUploader
 end
