@@ -137,7 +137,14 @@ l3.innerHTML = '注文を確定する';
 </script>
 <% end %>
 <%= form_tag(:controller => :order, action: :pay, method: :post) do %>
-   <script type="text/javascript" src="https://checkout.pay.jp" class="payjp-button" data-key="pk_test_38e945b10367e2f041a6b4e3">
+   <script type="text/javascript"
+           src="https://checkout.pay.jp"
+           class="payjp-button"
+           data-key="pk_test_38e945b10367e2f041a6b4e3"
+           data-on-created="onCreated"
+           data-text="支払う"
+           data-submit-text="支払う"
+           data-partial="true">
    </script>
    <% end %>
 
