@@ -43,8 +43,9 @@ end
 # end
 
 def upload2
-
+  
   @order = Order.new(image_name: params[:order][:image_name])
+
 #@order.image_name.urlにはアップロード画像の保存先のパスが入る
   session[:image] = @order.image_name.url
 
