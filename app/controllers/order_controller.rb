@@ -33,22 +33,20 @@ def take_picture
 @order=Order.new
 end
 #
-# def upload
-# @order = Order.new(image: params[:order][:image])
-#
-# session[:image] = @order.image.url
-# # 一時的アップロード(@userインスタンスには一時ディレクトリのパスが入る)
-# render :new
-# #redirect_to("/order/new")
-# end
+def upload
+  binding.pry
+@order = Order.new(image_name: params[:image_name])
+  binding.pry
+session[:image] = @order.image_name.url
+# 一時的アップロード(@userインスタンスには一時ディレクトリのパスが入る)
+render :new
+#redirect_to("/order/new")
+end
 
 def upload2
-  
   @order = Order.new(image_name: params[:order][:image_name])
-
 #@order.image_name.urlにはアップロード画像の保存先のパスが入る
   session[:image] = @order.image_name.url
-
 render :new
 #redirect_to("/order/new")
 end
